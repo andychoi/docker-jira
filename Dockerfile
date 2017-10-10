@@ -1,5 +1,5 @@
-FROM ahaasler/jira-base:alpine-8u102b14-server-jre
-MAINTAINER Adrian Haasler García <dev@adrianhaasler.com>
+FROM choibc/jira-base:alpine-8u144b01_server-jre
+MAINTAINER Andy Choi <choibc@gmail.com>
 
 # Configuration
 ENV JIRA_VERSION 7.5.0
