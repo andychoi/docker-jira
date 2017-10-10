@@ -1,4 +1,4 @@
-FROM choibc/jira-base:alpine-8u144b01_server-jre
+FROM choibc/jira-base:latest
 MAINTAINER Andy Choi <choibc@gmail.com>
 
 # Configuration
