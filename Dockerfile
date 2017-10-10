@@ -8,7 +8,8 @@ ENV JIRA_VERSION 7.5.0
 # Install dependencies
 RUN apk upgrade --update \
 	&& apk add --update curl	tar \
-	&& apk add xmlstarlet --update --repository http://dl-3.alpinelinux.org/alpine/edge/testing/ --allow-untrusted  
+	&& apk add xmlstarlet --update 
+#--repository http://dl-3.alpinelinux.org/alpine/edge/testing/   
 
 # Create the user that will run the jira instance and his home directory (also make sure that the parent directory exists)
 RUN mkdir -p $(dirname $JIRA_HOME) \
