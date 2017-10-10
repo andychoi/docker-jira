@@ -1,23 +1,19 @@
-FROM choibc/jira-base:latest
+FROM anapsix/alpine-java:8u144b01_server-jre
 MAINTAINER Andy Choi <choibc@gmail.com>
 
 # Configuration
+ENV JIRA_HOME /data/jira
 ENV JIRA_VERSION 7.5.0
 
-# Get environment variables for building
-ARG SOURCE_COMMIT
-ARG SOURCE_TAG
-ARG BUILD_DATE
+# Install dependencies
+RUN apk upgrade --update \
+	&& apk add --update curl	tar \
+	&& apk add xmlstarlet --update --repository http://dl-6.alpinelinux.org/alpine/edge/testing
 
-# Build-time metadata as defined at http://label-schema.org
-LABEL org.label-schema.build-date=$BUILD_DATE \
-	org.label-schema.name="jira" \
-	org.label-schema.description="A Docker image for Jira" \
-	org.label-schema.url="https://www.atlassian.com/software/jira/core" \
-	org.label-schema.vcs-ref=$SOURCE_COMMIT \
-	org.label-schema.vcs-url="https://github.com/ahaasler/docker-jira" \
-	org.label-schema.version=$SOURCE_TAG \
-	org.label-schema.schema-version="1.0"
+# Create the user that will run the jira instance and his home directory (also make sure that the parent directory exists)
+RUN mkdir -p $(dirname $JIRA_HOME) \
+	&& adduser -h $JIRA_HOME -s /bin/bash -u 547 -D jira
+	
 
 # Download and install jira in /opt with proper permissions and clean unnecessary files
 RUN curl -Lks https://downloads.atlassian.com/software/jira/downloads/atlassian-jira-core-$JIRA_VERSION.tar.gz -o /tmp/jira.tar.gz \
